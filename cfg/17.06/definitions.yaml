@@ -746,7 +746,7 @@ groups:
   - id: 3.16
     description: "Ensure that Docker socket file permissions are set to 660 or more
     restrictive (Scored)"
-    audit: /bin/sh -c "if [ -f /var/run/docker.sock ]; then stat -c %a /var/run/docker.sock; fi"
+    audit: /bin/sh -c "if [ -e /var/run/docker.sock ]; then stat -c %a /var/run/docker.sock; fi"
     tests:
       bin_op: or
       test_items:
@@ -755,7 +755,6 @@ groups:
           op: eq
           value: "660"
         set: true
-      test_items:
       - flag: "600"
         compare:
           op: eq
@@ -767,6 +766,7 @@ groups:
     scored: true
 
   - id: 3.17
+    type: manual
     description: "Ensure that daemon.json file ownership is set to root:root (Scored)"
     audit: /bin/sh -c "if [ -f /etc/docker/daemon.json ]; then stat -c %U:%G /etc/docker/daemon.json; fi"
     tests:
